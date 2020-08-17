@@ -18,3 +18,7 @@ sh ./scripts/download_trained_model.sh
 //run example in mTest
 
 python -m apps.simple_test -i ./mTest --use_rect
+
+python apps/clean_mesh.py -f ./
+
+python -m apps.preTest ./SOP.jpg

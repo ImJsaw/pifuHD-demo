@@ -184,7 +184,7 @@ def recon(opt, use_rect=False):
 
     os.makedirs(opt.checkpoints_path, exist_ok=True)
     os.makedirs(opt.results_path, exist_ok=True)
-    os.makedirs('%s/%s/recon' % (opt.results_path, opt.name), exist_ok=True)
+    os.makedirs('%s/mResult' % (opt.results_path), exist_ok=True)
 
     if start_id < 0:
         start_id = 0
@@ -195,7 +195,7 @@ def recon(opt, use_rect=False):
     with torch.no_grad():
         set_eval()
 
-        print('generate mesh (test) ...')
+        print('generate mesh ...')
         for i in tqdm(range(start_id, end_id)):
             if i >= len(test_dataset):
                 break
@@ -204,15 +204,15 @@ def recon(opt, use_rect=False):
             if True:
                 test_data = test_dataset[i]
 
-                save_path = '%s/%s/recon/result_%s_%d.obj' % (opt.results_path, opt.name, test_data['name'], opt.resolution)
+                save_path = '%s/mResult/result_%s_%d.obj' % (opt.results_path,test_data['name'], opt.resolution)
 
                 print(save_path)
-                gen_mesh(opt.resolution, netMR, cuda, test_data, save_path, components=opt.use_compose)
+                gen_mesh_imgColor(opt.resolution, netMR, cuda, test_data, save_path, components=opt.use_compose)
             else:
                 for j in range(test_dataset.get_n_person(i)):
                     test_dataset.person_id = j
                     test_data = test_dataset[i]
-                    save_path = '%s/%s/recon/result_%s_%d.obj' % (opt.results_path, opt.name, test_data['name'], j)
+                    save_path = '%s/mResult/result_%s_%d.obj' % (opt.results_path, test_data['name'], j)
                     gen_mesh(opt.resolution, netMR, cuda, test_data, save_path, components=opt.use_compose)
 
 def reconWrapper(args=None, use_rect=False):
